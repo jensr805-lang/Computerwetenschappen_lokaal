@@ -87,9 +87,11 @@ namespace MyFirstRepository
         private string battleMessage = "Choose your move!";
         private int turn = 0;
         private Button[] moveButtons = new Button[4];
+        private Button itemButton;
         private Button playAgainButton;
         private bool isPlayerTurn = true;
         private bool battleOver = false;
+        private bool itemUsed = false;
         private int damageFlashTimer = 0;
         private int opponentDamageFlashTimer = 0;
         private System.Windows.Forms.Timer gameTimer;
@@ -101,7 +103,7 @@ namespace MyFirstRepository
         {
             // Form settings
             this.Text = "Battle Arena";
-            this.Size = new Size(1400, 1050);
+            this.Size = new Size(1400, 940);
             this.StartPosition = FormStartPosition.CenterScreen;
             this.BackColor = Color.FromArgb(30, 40, 60);
             this.DoubleBuffered = true;
@@ -128,7 +130,7 @@ namespace MyFirstRepository
                 moveButtons[i] = new Button();
                 moveButtons[i].Text = playerCreature.Moves[i].Name;
                 moveButtons[i].Size = new Size(240, 60);
-                moveButtons[i].Location = new Point(250 + (i % 2) * 280, 920 - (i / 2) * 70);
+                moveButtons[i].Location = new Point(250 + (i % 2) * 280, 820 - (i / 2) * 70);
                 moveButtons[i].Click += (s, e) => PlayerSelectMove(index);
                 moveButtons[i].Font = new Font("Arial", 12, FontStyle.Bold);
                 moveButtons[i].BackColor = Color.FromArgb(70, 130, 180);
@@ -138,6 +140,20 @@ namespace MyFirstRepository
                 moveButtons[i].FlatAppearance.BorderSize = 2;
                 this.Controls.Add(moveButtons[i]);
             }
+
+            // Create item button (one-time grenade)
+            itemButton = new Button();
+            itemButton.Text = "GRENADE";
+            itemButton.Size = new Size(240, 60);
+            itemButton.Location = new Point(830, 820);
+            itemButton.Font = new Font("Arial", 12, FontStyle.Bold);
+            itemButton.BackColor = Color.FromArgb(180, 80, 80);
+            itemButton.ForeColor = Color.White;
+            itemButton.FlatStyle = FlatStyle.Flat;
+            itemButton.FlatAppearance.BorderColor = Color.FromArgb(220, 120, 120);
+            itemButton.FlatAppearance.BorderSize = 2;
+            itemButton.Click += (s, e) => UseGrenade();
+            this.Controls.Add(itemButton);
 
             // Main animation timer
             gameTimer = new System.Windows.Forms.Timer();
@@ -159,7 +175,7 @@ namespace MyFirstRepository
             playAgainButton = new Button();
             playAgainButton.Text = "PLAY AGAIN";
             playAgainButton.Size = new Size(200, 60);
-            playAgainButton.Location = new Point(600, 980);
+            playAgainButton.Location = new Point(830, 740);
             playAgainButton.Font = new Font("Arial", 14, FontStyle.Bold);
             playAgainButton.BackColor = Color.FromArgb(50, 200, 100);
             playAgainButton.ForeColor = Color.White;
@@ -198,9 +214,11 @@ namespace MyFirstRepository
             damageFlashTimer = 0;
             opponentDamageFlashTimer = 0;
             battleMessage = "Choose your move!";
+            itemUsed = false;
 
-            // Hide play again button and enable move buttons
+            // Hide play again button and enable buttons
             playAgainButton.Visible = false;
+            itemButton.Enabled = true;
             foreach (var btn in moveButtons)
                 btn.Enabled = true;
 
@@ -293,7 +311,7 @@ namespace MyFirstRepository
             }
 
             // Draw HP bar BELOW creature - well separated and large
-            Rectangle hpBarBg = new Rectangle(x - 40, y + 160, 220, 40);
+            Rectangle hpBarBg = new Rectangle(x - 80, y + 160, 220, 40);
             g.FillRectangle(new SolidBrush(Color.FromArgb(40, 40, 40)), hpBarBg);
             g.DrawRectangle(new Pen(Color.White, 2), hpBarBg);
 
@@ -302,12 +320,12 @@ namespace MyFirstRepository
             Color hpColor = creature.Health > creature.MaxHealth * 0.5 ? Color.FromArgb(50, 200, 50) : 
                            creature.Health > creature.MaxHealth * 0.25 ? Color.FromArgb(255, 200, 50) :
                            Color.FromArgb(255, 50, 50);
-            Rectangle hpBarFill = new Rectangle(x - 38, y + 162, hpWidth, 36);
+            Rectangle hpBarFill = new Rectangle(x - 78, y + 162, hpWidth, 36);
             g.FillRectangle(new SolidBrush(hpColor), hpBarFill);
 
             // Draw HP text - large and clear
             g.DrawString($"{creature.Health}/{creature.MaxHealth} HP", new Font("Arial", 13, FontStyle.Bold), 
-                Brushes.White, x + 10, y + 166);
+                Brushes.White, x - 60, y + 166);
         }
 
         private void DrawFlameWolf(Graphics g, int x, int y, Color displayColor, Color originalColor)
@@ -415,6 +433,7 @@ namespace MyFirstRepository
             // Disable all buttons during this turn
             foreach (var btn in moveButtons)
                 btn.Enabled = false;
+            itemButton.Enabled = false;
 
             isPlayerTurn = false;
             isWaitingForOpponent = true;
@@ -434,6 +453,41 @@ namespace MyFirstRepository
             }
 
             // Schedule opponent's turn
+            battleTimer.Start();
+        }
+
+        private void UseGrenade()
+        {
+            if (!isPlayerTurn || battleOver || isWaitingForOpponent || itemUsed)
+                return;
+
+            // Disable all buttons during item use
+            foreach (var btn in moveButtons)
+                btn.Enabled = false;
+            itemButton.Enabled = false;
+
+            isPlayerTurn = false;
+            isWaitingForOpponent = true;
+            itemUsed = true;
+            battleMessage = $"{playerCreature.Name} throws a grenade!";
+            this.Invalidate();
+
+            // Grenade does massive damage to opponent
+            int grenadeDamage = 70 + random.Next(-5, 6);
+            opponentCreature.TakeDamage(grenadeDamage);
+            battleMessage = $"Grenade hits {opponentCreature.Name} for {grenadeDamage} damage!";
+            opponentDamageFlashTimer = 20;
+            this.Invalidate();
+
+            if (!opponentCreature.IsAlive)
+            {
+                battleTimer.Stop();
+                battleOver = true;
+                playAgainButton.Visible = true;
+                battleMessage = $"Victory! {playerCreature.Name} defeated {opponentCreature.Name}!";
+                return;
+            }
+
             battleTimer.Start();
         }
 
