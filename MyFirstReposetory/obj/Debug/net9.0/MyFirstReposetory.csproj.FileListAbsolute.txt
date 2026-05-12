@@ -12,3 +12,4 @@ C:\Computerwetenschappen_lokaal\MyFirstReposetory\obj\Debug\net9.0\refint\MyFirs
 C:\Computerwetenschappen_lokaal\MyFirstReposetory\obj\Debug\net9.0\MyFirstReposetory.pdb
 C:\Computerwetenschappen_lokaal\MyFirstReposetory\obj\Debug\net9.0\MyFirstReposetory.genruntimeconfig.cache
 C:\Computerwetenschappen_lokaal\MyFirstReposetory\obj\Debug\net9.0\ref\MyFirstReposetory.dll
+C:\Computerwetenschappen_lokaal\MyFirstReposetory\obj\Debug\net9.0\MyFirstReposetory.sourcelink.json

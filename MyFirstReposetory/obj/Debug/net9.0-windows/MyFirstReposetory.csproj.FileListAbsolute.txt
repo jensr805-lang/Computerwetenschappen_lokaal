@@ -1,0 +1,15 @@
+C:\Computerwetenschappen_lokaal\MyFirstReposetory\obj\Debug\net9.0-windows\MyFirstReposetory.GeneratedMSBuildEditorConfig.editorconfig
+C:\Computerwetenschappen_lokaal\MyFirstReposetory\obj\Debug\net9.0-windows\MyFirstReposetory.AssemblyInfoInputs.cache
+C:\Computerwetenschappen_lokaal\MyFirstReposetory\obj\Debug\net9.0-windows\MyFirstReposetory.AssemblyInfo.cs
+C:\Computerwetenschappen_lokaal\MyFirstReposetory\obj\Debug\net9.0-windows\MyFirstReposetory.csproj.CoreCompileInputs.cache
+C:\Computerwetenschappen_lokaal\MyFirstReposetory\obj\Debug\net9.0-windows\MyFirstReposetory.sourcelink.json
+C:\Computerwetenschappen_lokaal\MyFirstReposetory\bin\Debug\net9.0-windows\MyFirstReposetory.exe
+C:\Computerwetenschappen_lokaal\MyFirstReposetory\bin\Debug\net9.0-windows\MyFirstReposetory.deps.json
+C:\Computerwetenschappen_lokaal\MyFirstReposetory\bin\Debug\net9.0-windows\MyFirstReposetory.runtimeconfig.json
+C:\Computerwetenschappen_lokaal\MyFirstReposetory\bin\Debug\net9.0-windows\MyFirstReposetory.dll
+C:\Computerwetenschappen_lokaal\MyFirstReposetory\bin\Debug\net9.0-windows\MyFirstReposetory.pdb
+C:\Computerwetenschappen_lokaal\MyFirstReposetory\obj\Debug\net9.0-windows\MyFirstReposetory.dll
+C:\Computerwetenschappen_lokaal\MyFirstReposetory\obj\Debug\net9.0-windows\refint\MyFirstReposetory.dll
+C:\Computerwetenschappen_lokaal\MyFirstReposetory\obj\Debug\net9.0-windows\MyFirstReposetory.pdb
+C:\Computerwetenschappen_lokaal\MyFirstReposetory\obj\Debug\net9.0-windows\MyFirstReposetory.genruntimeconfig.cache
+C:\Computerwetenschappen_lokaal\MyFirstReposetory\obj\Debug\net9.0-windows\ref\MyFirstReposetory.dll
